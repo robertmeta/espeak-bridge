@@ -38,25 +38,25 @@ Flow is:
       2. raw bytes of sound captured by emacs-bridge
       3. raw bytes piped to open play process reading from stdin
    3. tts command
-      a. chunk into speed, voice, pitch, amplitude, capsmode groups
-      b. check interal process list to see if we have a proper peak process up
+      1. chunk into speed, voice, pitch, amplitude, capsmode groups
+      2. check interal process list to see if we have a proper peak process up
          matching that, if so jump to f.
-      c. start espeak process with correct settings
-      d. add process to list of handlers
-      e. if exceeding max handlers, close LRU
-      f. direct tts content to correct server, which will play it with right
+      3. start espeak process with correct settings
+      4. add process to list of handlers
+      5. if exceeding max handlers, close LRU
+      6. direct tts content to correct server, which will play it with right
          settings
 		 
 		 
 So, that is a lot, but basically you end up with a process tree like
 
 - ```emacs``` (running emacspeak)
- - ```espeak-bridge```
-  - ```play - ``` (waiting to play ogg data)
-  - ```sox ... ``` (spawned just to handle generating ogg of tone)
-  - ```espeak -p10 -k2 -a 100 -v en -rate 200``` (waiting to handle voice output
-    in this configuration)
-  - ```espeak -p10 -k2 -a 100 -v en -rate 220``` (109% faster so ready to handle
-    letters for example at a 1.1 multiple)
-  - ```espeak -p50 -k20 -a 100 -v en -rate 200```
-  - ```...```
+   - ```espeak-bridge```
+      - ```play - ``` (waiting to play ogg data)
+      - ```sox ... ``` (spawned just to handle generating ogg of tone)
+      - ```espeak -p10 -k2 -a 100 -v en -rate 200``` (waiting to handle voice output
+        in this configuration)
+     - ```espeak -p10 -k2 -a 100 -v en -rate 220``` (109% faster so ready to handle
+        letters for example at a 1.1 multiple)
+     - ```espeak -p50 -k20 -a 100 -v en -rate 200```
+     - ```...```
