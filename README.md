@@ -13,7 +13,12 @@ server is to avoid overwhelming the system with process spawning.  Processes on
 Windows are very expensive, and on Mac have extra overhead due to the way the
 security system functions.
 
-So, the basic design is:
+Basic design:
+
+A series of go routines and channels to pipe data around stage by stage along
+the flow
+
+Flow is: 
 
 1. emacspeak opens espeak-bridge 
 2. espeak-bridge opens 3 basic processes it will use
