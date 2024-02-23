@@ -28,13 +28,13 @@ Flow is:
 3. espeak-bridge gets TTS commands from emacspeak
 4. espeak-bridge routes them to one of three paths:
    1. tone command
-      1. check if tone in internal cache, if so jump to 5
+      1. check if tone in internal cache, if so jump to e
       2. tone generated using sox command line in ogg format
       3. raw bytes captured by emacs-bridge
       4. raw bytes stored in internal cache with tone features
       5. raw bytes piped to open play process reading from stdin
    2. sound command
-      1. check if sound is internal cache, if so jump to 4.2.3
+      1. check if sound is internal cache, if so jump to c. 
       2. raw bytes of sound captured by emacs-bridge
       3. raw bytes piped to open play process reading from stdin
    3. tts command
