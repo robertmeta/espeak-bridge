@@ -38,13 +38,13 @@ Flow is:
       2. raw bytes of sound captured by emacs-bridge
       3. raw bytes piped to open play process reading from stdin
    3. tts command
-      1. chunk into speed, voice, pitch, amplitude, capsmode groups
-      2. check interal process list to see if we have a proper peak process up
-         matching that, if so jump to 4.3.6.
-      3. start espeak process with correct settings
-      4. add process to list of handlers
-      5. if exceeding max handlers, close LRU
-      6. direct tts content to correct server, which will play it with right
+      a. chunk into speed, voice, pitch, amplitude, capsmode groups
+      b. check interal process list to see if we have a proper peak process up
+         matching that, if so jump to f.
+      c. start espeak process with correct settings
+      d. add process to list of handlers
+      e. if exceeding max handlers, close LRU
+      f. direct tts content to correct server, which will play it with right
          settings
 		 
 		 
