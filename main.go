@@ -21,8 +21,14 @@ func NewWorker() *Worker {
 }
 
 func (w *Worker) startProcess() {
+	wordGap := "1" // in 10ms groups
+	beepCap := "1" // 1 is beep, 2 is the word "capitol", 3+ is pitch
+	speechRate := "250"
+	utfMode := "1"
+
 	w.mu.Lock()
-	cmd := exec.Command("espeak-ng", "--stdin")
+	cmd := exec.Command("espeak-ng", "-g", wordGap, "-k", beepCap,
+		"-s", speechRate, "-b", utfMode, "-m", "-z")
 	stdin, err := cmd.StdinPipe()
 	if err != nil {
 		fmt.Println("WTF")
@@ -34,11 +40,9 @@ func (w *Worker) startProcess() {
 
 	cmd.Start()
 
-	    go func() {
-       io.Copy(os.Stdout, stdout) // Continuously read
-    }()
-
-
+	go func() {
+		io.Copy(os.Stdout, stdout) // Continuously read
+	}()
 
 	w.cmd = cmd
 	w.stdin = stdin
@@ -103,13 +107,11 @@ func (p *WorkerPool) StopAndSwitch() {
 
 func main() {
 	pool := NewWorkerPool(3) // Including the main worker and 2 extras.
-	time.Sleep(1 * time.Second)
 	pool.Speak("First message")
-	time.Sleep(1 * time.Second)
 	pool.Speak("First part2")
 	pool.Speak("First part3")
 	pool.Speak("First part4")
-	time.Sleep(1 * time.Second)
+	time.Sleep(3 * time.Second)
 
 	pool.StopAndSwitch()
 	pool.Speak("Second message after switching")
@@ -117,4 +119,30 @@ func main() {
 
 	pool.StopAndSwitch()
 	pool.Speak("3rd message after switching")
+	time.Sleep(1 * time.Second)
+
+	pool.StopAndSwitch()
+	pool.Speak("4th message after switching")
+	time.Sleep(1 * time.Second)
+
+	pool.StopAndSwitch()
+	pool.Speak("5th message after switching")
+
+	pool.StopAndSwitch()
+	pool.Speak("shoudln't hear me message after switching")
+	pool.StopAndSwitch()
+	pool.Speak("shoudln't hear me message after switching")
+	pool.StopAndSwitch()
+	pool.Speak("shoudln't hear me message after switching")
+	pool.StopAndSwitch()
+	pool.Speak("shoudln't hear me message after switching")
+	pool.StopAndSwitch()
+	pool.Speak("shoudln't hear me message after switching")
+	pool.StopAndSwitch()
+	pool.Speak("shoudln't hear me message after switching")
+	pool.StopAndSwitch()
+	pool.Speak("shoudln't hear me message after switching")
+
+	pool.StopAndSwitch()
+	pool.Speak("final message after switching")
 }
