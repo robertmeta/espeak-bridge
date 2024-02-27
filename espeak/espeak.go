@@ -83,8 +83,8 @@ func (p *WorkerPool) StopAndSwitch() {
 
 	// Move to the next worker and start it if not already running
 	p.currentIdx = (p.currentIdx + 1) % len(p.workers)
-	nextWorker := p.workers[p.currentIdx]
-	nextWorker.startProcess() // Ensure the next worker is ready
+	//nextWorker := p.workers[p.currentIdx]
+	//nextWorker.startProcess() // Ensure the next worker is ready
 
 	// Restart the stopped worker in the background
 	go currentWorker.restartProcess()

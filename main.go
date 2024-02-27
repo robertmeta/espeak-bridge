@@ -4,7 +4,7 @@ import "github.com/robertmeta/espeak-bridge/espeak"
 import "time"
 
 func main() {
-	pool := espeak.NewWorkerPool(3) 
+	pool := espeak.NewWorkerPool(7) 
 	pool.Speak("First message")
 	pool.Speak("First part2")
 	pool.Speak("First part3")
