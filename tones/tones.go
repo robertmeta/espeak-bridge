@@ -20,7 +20,6 @@ func GetOrMakeTone(directory string, durationMs int, frequency int) (string, err
 
 	// Check if the file already exists
 	if _, err := os.Stat(filepath); err == nil {
-		fmt.Println("File already exists:", filepath)
 		return filepath, nil // File exists, return path
 	} else if !os.IsNotExist(err) {
 		return "", err // Some other error occurred
@@ -36,6 +35,5 @@ func GetOrMakeTone(directory string, durationMs int, frequency int) (string, err
 		return "", err
 	}
 
-	fmt.Println("Generated tone:", filepath)
 	return filepath, nil
 }
