@@ -1,9 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"io"
-	"os"
 	"os/exec"
 	"sync"
 	"time"
@@ -12,7 +10,6 @@ import (
 type Worker struct {
 	cmd    *exec.Cmd
 	stdin  io.WriteCloser
-	stdout io.ReadCloser
 	mu     sync.Mutex
 }
 
@@ -22,31 +19,21 @@ func NewWorker() *Worker {
 
 func (w *Worker) startProcess() {
 	wordGap := "1" // in 10ms groups
-	beepCap := "1" // 1 is beep, 2 is the word "capitol", 3+ is pitch
+	capControl := "25" // 1 is beep, 2 is the word "capitol", 3+ is pitch
 	speechRate := "250"
 	utfMode := "1"
 
 	w.mu.Lock()
-	cmd := exec.Command("espeak-ng", "-g", wordGap, "-k", beepCap,
+	cmd := exec.Command("espeak-ng", "-g", wordGap, "-k", capControl,
 		"-s", speechRate, "-b", utfMode, "-m", "-z")
 	stdin, err := cmd.StdinPipe()
 	if err != nil {
-		fmt.Println("WTF")
-	}
-	stdout, err := cmd.StdoutPipe()
-	if err != nil {
 		panic(err)
 	}
-
 	cmd.Start()
-
-	go func() {
-		io.Copy(os.Stdout, stdout) // Continuously read
-	}()
 
 	w.cmd = cmd
 	w.stdin = stdin
-	w.stdout = stdout
 	w.mu.Unlock()
 }
 
